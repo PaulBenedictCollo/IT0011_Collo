@@ -1,0 +1,18 @@
+i = 1  
+
+while i <= 7:  
+    if i % 2 == 1: #print for odd numbers
+        j = 1
+        print(" " * 4, end="") 
+        while j <= i:  
+            print(i, end="")
+            j += 1
+        print()  
+    if i == 5:  #print for 666666
+        j = 1
+        print(" " * 4, end="")  
+        while j <= 6:
+            print("6", end="")
+            j += 1
+        print()  
+    i += 2 
