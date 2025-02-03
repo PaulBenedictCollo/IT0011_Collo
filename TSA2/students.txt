@@ -1,5 +1,0 @@
-First Name: Paul Benedict 
- Last Name: Collo 
- Age: 19 
- Contact Number: 09121221212 
- Course: BSIT-WMA
