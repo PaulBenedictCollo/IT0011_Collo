@@ -1,0 +1,195 @@
+ # list to store student records
+student_records = [] 
+
+# function to open a file and load student records
+def open_file():
+    global student_records
+    file_path = input("Enter the file path to open: ")
+    try:
+        with open(file_path, 'r') as file:
+            student_records.clear()
+            for line in file:
+                parts = line.strip().split()
+                if len(parts) != 5:
+                    print(f"Skipping invalid line: {line.strip()}")
+                    continue
+                try:
+                    student_id = int(parts[0])
+                    first_name = parts[1]
+                    last_name = parts[2]
+                    class_standing = float(parts[3])
+                    major_exam = float(parts[4])
+                    student_records.append((student_id, (first_name, last_name), class_standing, major_exam))
+                except ValueError:
+                    print(f"Error converting data in line: {line.strip()}")
+        print("File opened successfully.")
+        show_all_students()  # display all records after opening the file
+    except FileNotFoundError:
+        print("File not found. Please check the path and try again.")
+    except Exception as e:
+        print(f"An error occurred while opening the file: {e}")
+
+# function to save student records to a file
+def save_file():
+    file_path = input("Enter the file path to save: ")
+    try:
+        with open(file_path, 'w') as file:
+            for record in student_records:
+                line = str(record[0]) + " " + record[1][0] + " " + record[1][1] + " " + str(record[2]) + " " + str(record[3]) + "\n"
+                file.write(line)
+        print("File saved successfully.")
+    except Exception as e:
+        print(f"An error occurred while saving the file: {e}")
+
+# function for saving a file
+def save_as_file():
+    save_file()
+
+# function to display all student records
+def show_all_students():
+    if not student_records:
+        print("No student records to display.")
+    else:
+        for record in student_records:
+            print(record)
+
+# function to calculate the final grade
+def calculate_grade(class_standing, major_exam):
+    return 0.6 * class_standing + 0.4 * major_exam
+
+# function to sort and display student records by last name
+def order_by_last_name():
+    if not student_records:
+        print("No student records to sort.")
+        return
+    # Create a new list with last name as the first element for sorting
+    records_with_last_name = [(record[1][1], record) for record in student_records]
+    # Sort the list using the built-in sort method, which sorts by the first element of each tuple
+    records_with_last_name.sort()
+    for _, record in records_with_last_name:
+        print(record)
+
+# function to sort and display student records by grade
+def order_by_grade():
+    if not student_records:
+        print("No student records to sort.")
+        return
+    # Create a new list with grade as the first element for sorting
+    records_with_grade = [(calculate_grade(record[2], record[3]), record) for record in student_records]
+    # Sort the list using the built-in sort method, which sorts by the first element of each tuple
+    records_with_grade.sort(reverse=True)
+    for _, record in records_with_grade:
+        print(record)
+
+# function to display a student record by ID
+def show_student_record():
+    try:
+        student_id = int(input("Enter Student ID: "))
+    except ValueError:
+        print("Invalid Student ID. Please enter a valid number.")
+        return
+    for record in student_records:
+        if record[0] == student_id:
+            print(record)
+            return
+    print("Student record not found.")
+
+# function to add a new student record
+def add_record():
+    try:
+        student_id = int(input("Enter Student ID: "))
+        first_name = input("Enter First Name: ")
+        last_name = input("Enter Last Name: ")
+        class_standing = float(input("Enter Class Standing: "))
+        major_exam = float(input("Enter Major Exam Grade: "))
+        student_records.append((student_id, (first_name, last_name), class_standing, major_exam))
+        print("Record added successfully.")
+    except ValueError:
+        print("Invalid input. Please enter valid data.")
+
+# function to edit an existing student record by ID
+def edit_record():
+    if not student_records:
+        print("No student records available to edit.")
+        return
+    try:
+        student_id = int(input("Enter Student ID: "))
+    except ValueError:
+        print("Invalid Student ID. Please enter a valid number.")
+        return
+    for i, record in enumerate(student_records):
+        if record[0] == student_id:
+            try:
+                first_name = input("Enter First Name: ")
+                last_name = input("Enter Last Name: ")
+                class_standing = float(input("Enter Class Standing: "))
+                major_exam = float(input("Enter Major Exam Grade: "))
+                student_records[i] = (student_id, (first_name, last_name), class_standing, major_exam)
+                print("Record updated successfully.")
+            except ValueError:
+                print("Invalid input. Please enter valid data.")
+            return
+    print("Student record not found.")
+
+# function to delete a student record by ID
+def delete_record():
+    if not student_records:
+        print("No student records available to delete.")
+        return
+    try:
+        student_id = int(input("Enter Student ID: "))
+    except ValueError:
+        print("Invalid Student ID. Please enter a valid number.")
+        return
+    for i, record in enumerate(student_records):
+        if record[0] == student_id:
+            del student_records[i]
+            print("Record deleted successfully.")
+            return
+    print("Student record not found.")
+
+# main menu
+def main():
+    while True:
+        print("\nRecord Management Program")
+        print("1. Open File")
+        print("2. Save File")
+        print("3. Save As File")
+        print("4. Show All Students Record")
+        print("5. Order by Last Name")
+        print("6. Order by Grade")
+        print("7. Show Student Record")
+        print("8. Add Record")
+        print("9. Edit Record")
+        print("10. Delete Record")
+        print("11. Exit")
+
+        choice = input("Enter your choice: ")
+
+        if choice == '1':
+            open_file()
+        elif choice == '2':
+            save_file()
+        elif choice == '3':
+            save_as_file()
+        elif choice == '4':
+            show_all_students()
+        elif choice == '5':
+            order_by_last_name()
+        elif choice == '6':
+            order_by_grade()
+        elif choice == '7':
+            show_student_record()
+        elif choice == '8':
+            add_record()
+        elif choice == '9':
+            edit_record()
+        elif choice == '10':
+            delete_record()
+        elif choice == '11':
+            break
+        else:
+            print("Invalid choice. Please try again.")
+
+# calls the main function
+main()

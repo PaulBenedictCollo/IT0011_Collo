@@ -1,0 +1,39 @@
+# define the sets based on the Venn diagram
+A = {'a', 'b', 'c', 'd', 'f', 'g'}
+B = {'b', 'c', 'h', 'l', 'm', 'o'}
+C = {'c', 'd', 'f', 'h', 'i', 'j', 'k'}
+
+# a. number of elements in A union B
+A_union_B = A.union(B)
+num_elements_A_union_B = len(A_union_B)
+print(f"Number of elements in A union B: {num_elements_A_union_B}")
+
+# b. number of elements in B not in A or C
+B_not_A_C = B.difference(A).difference(C)
+num_elements_B_not_A_C = len(B_not_A_C)
+print(f"Number of elements in B not in A or C: {num_elements_B_not_A_C}")
+
+
+# i. 
+i = C.difference(A).union(C.intersection(B).difference(A))
+print(f"i. {i}")
+
+# ii. 
+ii = A.intersection(C)
+print(f"ii. {ii}")
+
+# iii. 
+iii = A.intersection(B).union(B.intersection(C))
+print(f"iii. {iii}")
+
+# iv. 
+iv = A.intersection(C).difference(B)
+print(f"iv. {iv}")
+
+# v.
+v = A.intersection(B).intersection(C)
+print(f"v. {v}")
+
+# vi. 
+vi = B.difference(A).difference(C)
+print(f"vi. {vi}")

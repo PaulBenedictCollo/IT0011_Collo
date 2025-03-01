@@ -1,0 +1,65 @@
+import csv  # import for handling CSV files
+
+# function to load exchange rates from a CSV file
+def read_rates(file_path):
+    exchange_rates = {}  # dictionary to store exchange rates
+    with open(file_path, mode='r') as file:
+        csv_reader = csv.DictReader(file)  # read CSV file as a dictionary
+        for row in csv_reader:
+            currency = row['code']  # currency code
+            name = row['name']  # currency name
+            rate = float(row['rate'])  # convert exchange rate to float
+            exchange_rates[currency] = {'name': name, 'rate': rate}  # stores in the dictionary
+    return exchange_rates  
+
+# function to display all conversion rates
+def view_conversion_rates(exchange_rates):
+    print("\nConversion Rates:")
+    for currency, details in exchange_rates.items():
+        print(f"{currency} - {details['name']}: {details['rate']}")
+
+# function to convert USD to the target currency
+def convert_currency(amount_usd, target_currency, exchange_rates):
+    if target_currency in exchange_rates:  # checks if the currency exists in the dictionary
+        rate = exchange_rates[target_currency]['rate']  
+        converted_amount = amount_usd * rate  
+        return converted_amount  
+    else:
+        return None  
+
+# main menu 
+def main_menu():
+    file_path = 'currency.csv'  
+    exchange_rates = read_rates(file_path)  
+
+    while True:
+        print("\nMenu:")
+        print("1. View Conversion Rates")
+        print("2. Convert USD")
+        print("3. Exit")
+
+        choice = input("Enter your choice: ")  
+
+        if choice == '1':
+            view_conversion_rates(exchange_rates)  
+        elif choice == '2':
+            try:
+                amount_usd = float(input("How much dollar do you have? ")) 
+                target_currency = input("What currency do you want to have? ").upper()  
+                converted_amount = convert_currency(amount_usd, target_currency, exchange_rates) 
+
+                if converted_amount is not None: # ensures no null value
+                    print(f"\nDollar: {amount_usd} USD")
+                    print(f"{target_currency}: {converted_amount:.2f}")  # displays converted amount in 2 decimal places only
+                else:
+                    print("Currency not found in the exchange rate list.")  
+            except ValueError:
+                print("Invalid input. Please enter a valid number.")  
+        elif choice == '3':
+            print("Exiting the program.")
+            break  
+        else:
+            print("Invalid choice. Please try again.") 
+
+# calls the main function
+main_menu()
