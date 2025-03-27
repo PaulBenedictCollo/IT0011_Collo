@@ -13,9 +13,11 @@ class ItemManager:
     def __init__(self):
         self.items = {}
 
-    def add_item(self):
+    def addItem(self):
         try:
-            item_id = input("Enter item ID: ")
+            item_id = input("Enter 4-digit item ID: ")
+            if not item_id.isdigit() or len(item_id) != 4:
+                raise ValueError("Item ID must be a 4-digit number.")
             if item_id in self.items:
                 raise ValueError("Item ID already exists.")
             
@@ -29,17 +31,20 @@ class ItemManager:
             print("Item added successfully.")
         except ValueError as e:
             print("Error: " + str(e))
+            self.addItem()
 
-    def view_items(self):
+    def viewItems(self):
         if not self.items:
             print("No items available.")
         else:
             for item in self.items.values():
                 print(item.__str__())
 
-    def update_item(self):
+    def updateItem(self):
         try:
-            item_id = input("Enter item ID to update: ")
+            item_id = input("Enter 4-digit item ID to update: ")
+            if not item_id.isdigit() or len(item_id) != 4:
+                raise ValueError("Item ID must be a 4-digit number.")
             if item_id not in self.items:
                 raise ValueError("Item ID not found.")
 
@@ -53,10 +58,13 @@ class ItemManager:
             print("Item updated successfully.")
         except ValueError as e:
             print("Error: " + str(e))
+            self.updateItem()
 
-    def delete_item(self):
+    def deleteItem(self):
         try:
-            item_id = input("Enter item ID to delete: ")
+            item_id = input("Enter 4-digit item ID to delete: ")
+            if not item_id.isdigit() or len(item_id) != 4:
+                raise ValueError("Item ID must be a 4-digit number.")
             if item_id not in self.items:
                 raise ValueError("Item ID not found.")
             
@@ -64,6 +72,7 @@ class ItemManager:
             print("Item deleted successfully.")
         except ValueError as e:
             print("Error: " + str(e))
+            self.deleteItem()
 
 
 def main():
@@ -78,13 +87,13 @@ def main():
         choice = input("Enter your choice: ")
 
         if choice == "1":
-            manager.add_item()
+            manager.addItem()
         elif choice == "2":
-            manager.view_items()
+            manager.viewItems()
         elif choice == "3":
-            manager.update_item()
+            manager.updateItem()
         elif choice == "4":
-            manager.delete_item()
+            manager.deleteItem()
         elif choice == "5":
             print("Exiting program.")
             break
